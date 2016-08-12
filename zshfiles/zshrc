@@ -1,0 +1,45 @@
+# Set the zsh root directoy
+export ZSH_ROOT=$HOME/.zsh
+
+# Set some environmet variables
+source "$ZSH_ROOT/functions/environment.zsh"
+
+# anyenv
+source "$ZSH_ROOT/functions/anyenv.zsh"
+
+# zplug
+source "$ZSH_ROOT/functions/zplug.zsh"
+
+# Add fpath for completions
+# There are completion functions named like '_function'.
+fpath=($ZSH_ROOT/completions $fpath)
+
+# homebrew
+# aws-cli
+source /usr/local/share/zsh/site-functions/_aws
+
+source "$ZSH_ROOT/functions/completion.zsh"
+
+autoload -Uz compinit
+compinit -D
+
+# Load custom plugins
+while read myfunction; do
+  source "$ZSH_ROOT/functions/${myfunction}.zsh"
+done < <(cat << EOF
+alias
+history
+colorize
+git
+bindkey
+termsupport
+prompt
+autojump
+direnv
+EOF
+)
+
+# credentials
+if [ -f ~/.zshrc/credentials ];then
+	source ~/.zshrc/credentials
+fi

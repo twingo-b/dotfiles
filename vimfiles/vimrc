@@ -1,0 +1,248 @@
+" Encoding
+" set encoding=utf-8
+" set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,sjis,cp932,cp20932
+" set fileencoding=utf-8
+
+" StatusLineの追加
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+set laststatus=2
+
+" http://dbinfo.sakura.ne.jp/?contents_id=230
+set tabstop=4
+set autoindent
+set expandtab
+set shiftwidth=4
+
+" http://slumbers99.blogspot.jp/2012/02/vim-vundle.html
+" vi との互換性OFF
+set nocompatible
+" ファイル形式の検出を無効にする
+filetype off
+
+" https://github.com/VundleVim/Vundle.vim
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'pangloss/vim-javascript'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'comeonly/php.vim-html-enhanced'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+"filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+
+" 256 color
+set t_Co=256
+colorscheme solarized
+" 背景色を黒に
+set background=dark
+ 
+" たなやんから
+" http://qiita.com/simeji/items/35037bb2a240e4e72cec
+set clipboard=unnamed,autoselect
+
+set number
+set formatoptions=q
+set backupdir=~/.vim/tmp
+" 3章 P65 vimrcをリローダブルにする際の落とし穴
+  " ユーザー定義のオートコマンドを全て削除する。
+autocmd!
+
+  " 誌面ではページ数の都合で触れられなかったが、
+  " オートコマンドは特定のグループにまとめることができるので、
+  " ユーザー定義のオートコマンド用のグループを作成しておく方が、
+  " どこに何が追加されるのかやリセットするときも何がリセットされるかが
+  " 明確になるので良い。
+  "
+  " グループの定義とそのグループ内のオートコマンドのリセットは以下の通り:
+  " augroup MyAutoCmd
+  "   autocmd!
+  " augroup END
+  "
+  " グループMyAutoCmd内にオートコマンドを定義するには以下のようにする:
+  " autocmd! MyAutoCmd ColorScheme *  ...
+  "
+  " 詳細は:help autocmd-groupsを参照。
+
+
+
+
+" 2章 P51 VimをVimとして使うために最低限必要な設定
+  " ファイル種類の自動判別とそれに応じた適切設定/インデントを行なう。
+"filetype plugin indent on
+  " ファイルの種類に応じたシンタックスハイライトを有効にする。
+syntax enable
+
+
+
+
+" 3章 P63 vimrcを即座に編集できるようにする
+nnoremap <Space>.  :<C-u>edit $MYVIMRC<Enter>
+
+" 3章 P64 vimrcを即座にリロードできるようにする
+nnoremap <Space>s.  :<C-u>source $MYVIMRC<Enter>
+
+
+
+" 3章 P66 'backspace' - バックスペースの挙動を改善する
+  " 改行文字/インデント/インサートモード開始位置より前の文字を削除可能にする。
+set backspace=eol,indent,start
+
+" 3章 P66 'ignorecase' - 検索における大文字・小文字の無視
+  " /{pattern}や?{pattern}による検索で大文字・小文字の違いを無視する。
+set ignorecase
+
+" 3章 P66 'smartcase' - 検索における大文字・小文字の区別の改善
+  " 検索パターンに大文字が含まれる場合は大文字・小文字を区別する。
+set smartcase
+
+
+
+
+" 3章 P67 :helpを引きやすくする
+  " <C-h>の1キーで:helpを引く準備ができるようにする。
+nnoremap <C-h>  :<C-u>help<Space>
+  " <C-h><C-h>でカーソル下のキーワードを:helpで引く。
+nnoremap <C-h><C-h>  :<C-u>help<Space><C-r><C-w><Enter>
+
+
+" 3章 P69 論理行移動と表示行移動のキーバインディングを入れ替える
+  " j/kを表示行単位の移動に変更する。
+noremap j  gj
+noremap k  gk
+  " gj/gkを論理行単位の移動に変更する。
+noremap gj  j
+noremap gk  k
+
+" 3章 P69 日時の入力補助
+  " 2009-08-24T12:34:56のフォーマットで現在の日時を挿入する。
+inoremap <expr> ,df  strftime('%Y-%m-%dT%H:%M:%S')
+  " 2009-08-24のフォーマットで現在の日付を挿入する。
+inoremap <expr> ,dd  strftime('%Y-%m-%d')
+  " 12:34:56のフォーマットで現在の時刻を挿入する。
+inoremap <expr> ,dt  strftime('%H:%M:%S')
+
+" 3章 P70 最後に変更したテキストの選択
+nnoremap gc  `[v`]
+vnoremap gc  :<C-u>normal gc<Enter>
+onoremap gc  :<C-u>normal gc<Enter>
+
+
+
+
+" 3章 P72 シンタックスハイライトの色設定の上書き
+autocmd ColorScheme *
+\ highlight TabLine
+\           cterm=NONE ctermfg=lightgray ctermbg=darkgray
+doautocmd ColorScheme _
+
+" 3章 P73 カレントウィンドウのカーソル行をハイライトする
+autocmd WinEnter *  setlocal cursorline
+autocmd WinLeave *  setlocal nocursorline
+
+" 
+" yamlインデントの設定
+autocmd FileType yaml setl autoindent
+autocmd FileType yaml setl expandtab tabstop=2 shiftwidth=2 softtabstop=0
+autocmd FileType yaml setl smarttab
+
+" http://d.hatena.ne.jp/shuji_w6e/20090908/1252418641
+" Pythonインデントの設定
+autocmd FileType python setl autoindent
+autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+" http://win-to-mac.blogspot.jp/2012/07/vimruby.html
+" Rubyインデントの設定
+autocmd FileType ruby setl autoindent
+autocmd FileType ruby setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+" 
+" PHPインデントの設定
+autocmd FileType php setl autoindent
+autocmd FileType php setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+" 3章 P74 文字エンコーディングを指定してファイルを開く
+  " 単純なバージョン。
+  " :Utf8などとして文字エンコーディングを指定して
+  " 現在開いているファイルを開きなおすことができる。
+command! Cp932  edit ++enc=cp932
+command! Eucjp  edit ++enc=euc-jp
+command! Iso2022jp  edit ++enc=iso-2022-jp
+command! Utf8  edit ++enc=utf-8
+
+command! Jis  Iso2022jp
+command! Sjis  Cp932
+
+  " さらに:editと同様に利用できるようにしたバージョン。
+  " 上記のものと比較すると、
+  " :Utf8 utf8.txtなどとして文字エンコーディングを指定して
+  " ファイルを開くことができる。
+command! -bang -bar -complete=file -nargs=? Utf8
+\ edit<bang> ++enc=utf-8 <args>
+command! -bang -bar -complete=file -nargs=? Eucjp
+\ edit<bang> ++enc=euc-jp <args>
+command! -bang -bar -complete=file -nargs=? Iso2022jp
+\ edit<bang> ++enc=iso-2022-jp <args>
+command! -bang -bar -complete=file -nargs=? Cp932
+\ edit<bang> ++enc=cp932 <args>
+
+command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
+command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
+
+" 3章 P74 :cdを使いやすくする
+command! -complete=customlist,CompleteCD -nargs=? CD  cd <args>
+function! CompleteCD(arglead, cmdline, cursorpos)
+  let pattern = join(split(a:cmdline, '\s', !0)[1:], ' ') . '*/'
+  return split(globpath(&cdpath, pattern), "\n")
+endfunction
+
+" http://higelog.brassworks.jp/?p=689
+" 構文のハイライト、インデント調整
+autocmd FileType javascript set ts=4 sw=4 sts=0
+autocmd BufNewFile *.js set ft=javascript fenc=utf-8
+
+"http://dev.classmethod.jp/devenv/vim-ricty-for-powerline/
+"Airline
+"2016/08/05
+set showtabline=2 " 常にタブラインを表示
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_theme='papercolor' "落ち着いた色調が好き
+let g:airline_powerline_fonts = 1

@@ -1,0 +1,8 @@
+colorscheme solarized 
+set guifont=Ricty\ Regular\ for\ Powerline:h15
+set background=dark "背景色：黒
+set transparency=5 "透明度を指定
+set lines=90 columns=200 "ウィンドウサイズを指定
+set guioptions-=T "GUIのツールバーを消す
+set showtabline=2 "タブを常に表示
+
