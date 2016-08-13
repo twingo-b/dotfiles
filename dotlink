@@ -86,6 +86,7 @@ git/gitignore,.gitignore
 #==============================================================================
 
 vimfiles/vimrc,.vimrc
+vimfiles/plug.vim,.vim/plug.vim
 vimfiles/gvimrc,.gvimrc
 vimfiles/xvimrc,.xvimrc
 

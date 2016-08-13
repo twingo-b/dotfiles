@@ -1,248 +1,344 @@
-" Encoding
-" set encoding=utf-8
-" set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,sjis,cp932,cp20932
-" set fileencoding=utf-8
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                _                                            "
+"                         __   _(_)_ __ ___  _ __ ___                         "
+"                         \ \ / / | '_ ` _ \| '__/ __|                        "
+"                          \ V /| | | | | | | | | (__                         "
+"                           \_/ |_|_| |_| |_|_|  \___|                        "
+"                                                                             "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"------------------------------------------------------------------------------
+" Initial Setting:                                                          {{{
+"------------------------------------------------------------------------------
 
-" StatusLineの追加
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
+
+if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
+
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+" use <Space> for mapleader & localleader
+let mapleader = "\<Space>"
+let localleader = "\<Space>"
+
+" encoding
+scriptencoding utf8
+set fileencoding=utf-8
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
+
+"---------------------------------------------------------------------------}}}
+" Load plugins:                                                             {{{
+"------------------------------------------------------------------------------
+
+source ~/.vim/plug.vim
+
+"---------------------------------------------------------------------------}}}
+" Autocmd:                                                                  {{{
+"------------------------------------------------------------------------------
+
+" set title for currently viewing
+" [tmux tabs with name of file open in vim - Stack Overflow]
+" http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
+if $TMUX != ""
+  augroup titlesettings
+    autocmd!
+    autocmd BufEnter,InsertEnter * call system("tmux rename-window '(vim)" . expand("%:t") . "'")
+    autocmd VimLeave * call system("tmux rename-window zsh")
+    autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+  augroup END
+endif
+
+augroup filetype
+  autocmd!
+  " markdown
+  autocmd BufRead,BufNewFile *.{mkd,md} set filetype=markdown
+  autocmd! FileType markdown hi! def link markdownItalic Normal
+  autocmd FileType markdown set commentstring=<\!--\ %s\ -->
+  " tex file (I always use latex)
+  autocmd BufRead,BufNewFile *.tex set filetype=tex
+  " bib file
+  autocmd BufRead,BufNewFile *.bib set filetype=bib
+  autocmd Filetype bib let &formatprg="bibclean"
+  " python
+  autocmd Filetype python let &formatprg="autopep8 -"
+  autocmd FileType python setlocal completeopt-=preview
+  " html
+  let html_to_html  = "pandoc --from=html --to=markdown"
+  let html_to_html .= " | pandoc --from=markdown --to=html"
+  autocmd Filetype html let &formatprg=html_to_html
+augroup END
+
+augroup set_K_help
+  autocmd!
+  autocmd FileType vim setlocal keywordprg=:help
+augroup END
+
+augroup texmath
+  autocmd!
+  autocmd FileType texmath setlocal syntax=tex
+augroup END
+
+"---------------------------------------------------------------------------}}}
+" Set Options:                                                              {{{
+"------------------------------------------------------------------------------
+" System                                                                    {{{
+" ------
+
+" don't use backup or swap files
+set nowritebackup nobackup noswapfile
+
+" how many stock command history
+set history=1000
+
+" save information to ~/.viminfo
+set viminfo='1000,<3000,f50,c,h,s100
+
+" use unnamed register (for outer programs)
+set clipboard=unnamedplus,autoselect
+
+" less timeoutlen
+set timeout timeoutlen=400 ttimeoutlen=75
+
+" disable 8-bit num
+set nrformats-=octal
+
+" use mouse
+if has('mouse')
+  set mouse=a
+endif
+
+" set completion popup's height
+set pumheight=10
+
+" always split vertically when using vimdiff
+set diffopt=vertical
+
+" Indicates a fast terminal connection
+set ttyfast
+
+set whichwrap=b,s,[,],<,>
+
+" help language
+set helplang=en,ja
+
+" TOhtml
+let g:html_ignore_conceal=1
+let g:html_ignore_folding=1
+" let g:html_dynamic_folds=1
+
+" try to open under the cursor with `gx`
+let g:netrw_browsex_viewer="xdg-open"
+
+"                                                                           }}}
+" Search                                                                    {{{
+" ------
+
+" case sensitive for search
+set noignorecase nosmartcase
+" Show matches while typing
+set incsearch
+" highlighted search index
+set hlsearch
+" wrapscan
+set wrapscan
+
+"                                                                           }}}
+" Apearance                                                                 {{{
+" ---------
+
+" don't give the intro message
+set shortmess+=I
+
+" don't redraw screen during macros
+set lazyredraw
+
+" no number line
+set nonumber norelativenumber numberwidth=3
+
+" autoindent
+set autoindent
+
+" insert space instead of TAB
+set expandtab smarttab shiftround
+
+" default tab width
+set softtabstop=4 shiftwidth=4
+
+" don't break a long line
+set textwidth=0
+
+" wrapped by 80 characters(PEP8)
+set colorcolumn=80
+
+" status line
+set title noshowcmd
+
+" highlight cursorline
+set cursorline
+
+" height of commandline
+set cmdheight=1
+
+" the last window will have a status line always
 set laststatus=2
 
-" http://dbinfo.sakura.ne.jp/?contents_id=230
-set tabstop=4
-set autoindent
-set expandtab
-set shiftwidth=4
+" show wildmenu
+set wildmenu
 
-" http://slumbers99.blogspot.jp/2012/02/vim-vundle.html
-" vi との互換性OFF
-set nocompatible
-" ファイル形式の検出を無効にする
-filetype off
+" show Tab and Space at end of the line
+set list listchars=tab:▸\ ,trail:~
 
-" https://github.com/VundleVim/Vundle.vim
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" showbreaks
+set showbreak=\ ↪
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" highlight mathched parenthesis
+set showmatch matchtime=1
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'pangloss/vim-javascript'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'comeonly/php.vim-html-enhanced'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
+" folding
+set foldmethod=marker foldcolumn=0
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-"filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" characters to vertical separator
+set fillchars=vert:\|
 
+" modeline
+set modeline
 
-" 256 color
-set t_Co=256
-colorscheme solarized
-" 背景色を黒に
-set background=dark
- 
-" たなやんから
-" http://qiita.com/simeji/items/35037bb2a240e4e72cec
-set clipboard=unnamed,autoselect
+" disable the conceal function
+let g:tex_conceal=''
 
-set number
-set formatoptions=q
-set backupdir=~/.vim/tmp
-" 3章 P65 vimrcをリローダブルにする際の落とし穴
-  " ユーザー定義のオートコマンドを全て削除する。
-autocmd!
+set conceallevel=2
 
-  " 誌面ではページ数の都合で触れられなかったが、
-  " オートコマンドは特定のグループにまとめることができるので、
-  " ユーザー定義のオートコマンド用のグループを作成しておく方が、
-  " どこに何が追加されるのかやリセットするときも何がリセットされるかが
-  " 明確になるので良い。
-  "
-  " グループの定義とそのグループ内のオートコマンドのリセットは以下の通り:
-  " augroup MyAutoCmd
-  "   autocmd!
-  " augroup END
-  "
-  " グループMyAutoCmd内にオートコマンドを定義するには以下のようにする:
-  " autocmd! MyAutoCmd ColorScheme *  ...
-  "
-  " 詳細は:help autocmd-groupsを参照。
+"                                                                           }}}
+"---------------------------------------------------------------------------}}}
+" Indent:                                                                   {{{
+"------------------------------------------------------------------------------
 
+autocmd FileType sh         setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType apache     setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd FileType css        setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+autocmd FileType diff       setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+autocmd FileType html       setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+autocmd FileType java       setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+autocmd FileType ruby       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType eruby      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType sql        setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd FileType tex        setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType vim        setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType xml        setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+autocmd FileType yaml       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType zsh        setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType coffee     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
+"---------------------------------------------------------------------------}}}
+" My function:                                                              {{{
+"------------------------------------------------------------------------------
 
-
-" 2章 P51 VimをVimとして使うために最低限必要な設定
-  " ファイル種類の自動判別とそれに応じた適切設定/インデントを行なう。
-"filetype plugin indent on
-  " ファイルの種類に応じたシンタックスハイライトを有効にする。
-syntax enable
-
-
-
-
-" 3章 P63 vimrcを即座に編集できるようにする
-nnoremap <Space>.  :<C-u>edit $MYVIMRC<Enter>
-
-" 3章 P64 vimrcを即座にリロードできるようにする
-nnoremap <Space>s.  :<C-u>source $MYVIMRC<Enter>
-
-
-
-" 3章 P66 'backspace' - バックスペースの挙動を改善する
-  " 改行文字/インデント/インサートモード開始位置より前の文字を削除可能にする。
-set backspace=eol,indent,start
-
-" 3章 P66 'ignorecase' - 検索における大文字・小文字の無視
-  " /{pattern}や?{pattern}による検索で大文字・小文字の違いを無視する。
-set ignorecase
-
-" 3章 P66 'smartcase' - 検索における大文字・小文字の区別の改善
-  " 検索パターンに大文字が含まれる場合は大文字・小文字を区別する。
-set smartcase
-
-
-
-
-" 3章 P67 :helpを引きやすくする
-  " <C-h>の1キーで:helpを引く準備ができるようにする。
-nnoremap <C-h>  :<C-u>help<Space>
-  " <C-h><C-h>でカーソル下のキーワードを:helpで引く。
-nnoremap <C-h><C-h>  :<C-u>help<Space><C-r><C-w><Enter>
-
-
-" 3章 P69 論理行移動と表示行移動のキーバインディングを入れ替える
-  " j/kを表示行単位の移動に変更する。
-noremap j  gj
-noremap k  gk
-  " gj/gkを論理行単位の移動に変更する。
-noremap gj  j
-noremap gk  k
-
-" 3章 P69 日時の入力補助
-  " 2009-08-24T12:34:56のフォーマットで現在の日時を挿入する。
-inoremap <expr> ,df  strftime('%Y-%m-%dT%H:%M:%S')
-  " 2009-08-24のフォーマットで現在の日付を挿入する。
-inoremap <expr> ,dd  strftime('%Y-%m-%d')
-  " 12:34:56のフォーマットで現在の時刻を挿入する。
-inoremap <expr> ,dt  strftime('%H:%M:%S')
-
-" 3章 P70 最後に変更したテキストの選択
-nnoremap gc  `[v`]
-vnoremap gc  :<C-u>normal gc<Enter>
-onoremap gc  :<C-u>normal gc<Enter>
-
-
-
-
-" 3章 P72 シンタックスハイライトの色設定の上書き
-autocmd ColorScheme *
-\ highlight TabLine
-\           cterm=NONE ctermfg=lightgray ctermbg=darkgray
-doautocmd ColorScheme _
-
-" 3章 P73 カレントウィンドウのカーソル行をハイライトする
-autocmd WinEnter *  setlocal cursorline
-autocmd WinLeave *  setlocal nocursorline
-
-" 
-" yamlインデントの設定
-autocmd FileType yaml setl autoindent
-autocmd FileType yaml setl expandtab tabstop=2 shiftwidth=2 softtabstop=0
-autocmd FileType yaml setl smarttab
-
-" http://d.hatena.ne.jp/shuji_w6e/20090908/1252418641
-" Pythonインデントの設定
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-
-" http://win-to-mac.blogspot.jp/2012/07/vimruby.html
-" Rubyインデントの設定
-autocmd FileType ruby setl autoindent
-autocmd FileType ruby setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-
-" 
-" PHPインデントの設定
-autocmd FileType php setl autoindent
-autocmd FileType php setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-
-" 3章 P74 文字エンコーディングを指定してファイルを開く
-  " 単純なバージョン。
-  " :Utf8などとして文字エンコーディングを指定して
-  " 現在開いているファイルを開きなおすことができる。
-command! Cp932  edit ++enc=cp932
-command! Eucjp  edit ++enc=euc-jp
-command! Iso2022jp  edit ++enc=iso-2022-jp
-command! Utf8  edit ++enc=utf-8
-
-command! Jis  Iso2022jp
-command! Sjis  Cp932
-
-  " さらに:editと同様に利用できるようにしたバージョン。
-  " 上記のものと比較すると、
-  " :Utf8 utf8.txtなどとして文字エンコーディングを指定して
-  " ファイルを開くことができる。
-command! -bang -bar -complete=file -nargs=? Utf8
-\ edit<bang> ++enc=utf-8 <args>
-command! -bang -bar -complete=file -nargs=? Eucjp
-\ edit<bang> ++enc=euc-jp <args>
-command! -bang -bar -complete=file -nargs=? Iso2022jp
-\ edit<bang> ++enc=iso-2022-jp <args>
-command! -bang -bar -complete=file -nargs=? Cp932
-\ edit<bang> ++enc=cp932 <args>
-
-command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
-command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
-
-" 3章 P74 :cdを使いやすくする
-command! -complete=customlist,CompleteCD -nargs=? CD  cd <args>
-function! CompleteCD(arglead, cmdline, cursorpos)
-  let pattern = join(split(a:cmdline, '\s', !0)[1:], ' ') . '*/'
-  return split(globpath(&cdpath, pattern), "\n")
+function! Markdown_h1()
+  normal! V"ly"lpVr=
 endfunction
 
-" http://higelog.brassworks.jp/?p=689
-" 構文のハイライト、インデント調整
-autocmd FileType javascript set ts=4 sw=4 sts=0
-autocmd BufNewFile *.js set ft=javascript fenc=utf-8
+function! Markdown_h2()
+  normal! V"ly"lpVr-
+endfunction
 
-"http://dev.classmethod.jp/devenv/vim-ricty-for-powerline/
-"Airline
-"2016/08/05
-set showtabline=2 " 常にタブラインを表示
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme='papercolor' "落ち着いた色調が好き
-let g:airline_powerline_fonts = 1
+function! Markdown_h3()
+  normal! I### 
+endfunction
+
+"---------------------------------------------------------------------------}}}
+" Key Bindings:                                                             {{{
+"------------------------------------------------------------------------------
+
+" Escape by jj, kk
+inoremap <silent> jj <ESC>
+inoremap <silent> kk <ESC>
+
+" Toggle relative number by <Space> + l
+nnoremap <silent> <Leader>l :setlocal relativenumber! number!<CR>
+
+" execute shell command written in a line
+nnoremap Q !!$SHELL<CR>
+
+" move in wrapped line by arrow key
+nnoremap <Down> gj
+nnoremap <Up> gk
+
+" move from line head to line end
+nnoremap h <Left>zv
+
+" move from line end to line head
+nnoremap l <Right>zv
+
+" yank to line end
+nnoremap Y y$
+
+" cursor moved in insert mode
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+
+" move between windows by easy key mapping
+nnoremap <silent> <C-h> :wincmd h<CR>
+nnoremap <silent> <C-j> :wincmd j<CR>
+nnoremap <silent> <C-k> :wincmd k<CR>
+nnoremap <silent> <C-l> :wincmd l<CR>
+
+" clear highlight by pressing Esc twice
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+
+" open the file in new tab
+nnoremap gf <C-w>gf
+" create the file and open in new tab
+nnoremap gF :tabedit <C-r><C-f><CR>
+
+" multi tab jamp
+nnoremap <C-]> g<C-]>
+
+" for Japanese IME mode"{{{
+nnoremap あ a
+nnoremap い i
+nnoremap う u
+nnoremap え e
+nnoremap お o
+nnoremap っd dd
+nnoremap っy yy
+nnoremap し” ci"
+nnoremap し’ ci'
+nnoremap せ ce
+nnoremap で de
+inoremap <silent> っj <ESC>
+
+nnoremap っz zz
+nnoremap ・ /
+"}}}
+
+" quote and bracket
+inoremap {} {}<Left>
+inoremap [] []<Left>
+inoremap () ()<Left>
+inoremap "" ""<Left>
+inoremap ”” ””<Left>
+inoremap '' ''<Left>
+inoremap ’’ ’’<Left>
+inoremap <> <><Left>
+inoremap $$ $$<Left>
+
+vnoremap < <gv
+vnoremap > >gv
+
+" source vimrc
+map <Leader>so :source ~/.vimrc
+
+" my functions
+nnoremap <silent> <Leader>h1 :call Markdown_h1()<CR>
+nnoremap <silent> <Leader>h2 :call Markdown_h2()<CR>
+nnoremap <silent> <Leader>h3 :call Markdown_h3()<CR>
+
+"---------------------------------------------------------------------------}}}
