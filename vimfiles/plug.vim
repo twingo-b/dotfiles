@@ -50,7 +50,7 @@ Plug 'tyru/open-browser.vim'
 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'"{{{
 " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
 let g:lightline = {
         \ 'colorscheme': 'wombat',
@@ -184,6 +184,7 @@ function! MyCharCode()
   return "'". char ."' ". nr
 endfunction
 set laststatus=2
+"}}}
 
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
