@@ -16,3 +16,7 @@ export EDITOR=vim
 # mysql
 export MYSQL_HISTFILE="$HOME/.mysql/mysql_history"
 
+# gopath
+export GOPATH="$HOME/.go"
+export PATH=$GOPATH/bin:$PATH
+
