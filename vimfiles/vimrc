@@ -99,7 +99,7 @@ set history=1000
 set viminfo='1000,<3000,f50,c,h,s100
 
 " use unnamed register (for outer programs)
-set clipboard=unnamedplus,autoselect
+set clipboard+=unnamed
 
 " less timeoutlen
 set timeout timeoutlen=400 ttimeoutlen=75
