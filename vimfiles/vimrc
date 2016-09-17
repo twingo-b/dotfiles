@@ -269,6 +269,12 @@ nnoremap Q !!$SHELL<CR>
 nnoremap <Down> gj
 nnoremap <Up> gk
 
+" 論理行移動と表示行移動のキーバインディングを入れ替える
+noremap j  gj
+noremap k  gk
+noremap gj  j
+noremap gk  k
+
 " move from line head to line end
 nnoremap h <Left>zv
 
