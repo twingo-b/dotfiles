@@ -139,7 +139,7 @@ let g:netrw_browsex_viewer="xdg-open"
 " ------
 
 " case sensitive for search
-set noignorecase nosmartcase
+set ignorecase smartcase
 " Show matches while typing
 set incsearch
 " highlighted search index
