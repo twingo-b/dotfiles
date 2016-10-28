@@ -4,7 +4,7 @@ export DOT_DIR="$HOME/.ghq/github.com/twingo-b/dotfiles"
 
 # homebrew
 # http://qiita.com/ykirishima/items/f85902c6039f07d07d48
-export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # set language environment
 export LANG=en_US.UTF-8
