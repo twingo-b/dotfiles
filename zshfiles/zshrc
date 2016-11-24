@@ -40,6 +40,6 @@ EOF
 )
 
 # credentials
-if [ -f ~/.zshrc/credentials ];then
-	source ~/.zshrc/credentials
+if [ -f $ZSH_ROOT/credentials ];then
+  source $ZSH_ROOT/credentials
 fi
