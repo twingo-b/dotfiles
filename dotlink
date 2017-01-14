@@ -40,6 +40,7 @@ $HOME/Google Drive/dotfiles/.mylogin.cnf,.mylogin.cnf
 $HOME/Google Drive/dotfiles/.mysql,.mysql
 $HOME/Google Drive/dotfiles/.ssh,.ssh
 $HOME/Google Drive/dotfiles/.zsh/credentials,.zsh/credentials
+$HOME/Google Drive/dotfiles/BitBarPlugins/ping.10s.sh,BitBarPlugins/ping.10s.sh
 
 #===========================================================================}}}
 # [tmux]                                                                    {{{
