@@ -89,6 +89,9 @@ augroup END
 " System                                                                    {{{
 " ------
 
+" ime disable
+set imdisable
+
 " don't use backup or swap files
 set nowritebackup nobackup noswapfile
 
