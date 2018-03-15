@@ -20,3 +20,5 @@ export MYSQL_HISTFILE="$HOME/.mysql/mysql_history"
 export GOPATH="$HOME/.go"
 export PATH=$GOPATH/bin:$PATH
 
+# openssl
+export PATH="/usr/local/opt/openssl/bin:$PATH"
