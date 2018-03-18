@@ -22,3 +22,6 @@ export PATH=$GOPATH/bin:$PATH
 
 # openssl
 export PATH="/usr/local/opt/openssl/bin:$PATH"
+
+# curl
+export PATH="/usr/local/opt/curl/bin:$PATH"
