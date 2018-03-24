@@ -16,7 +16,7 @@ fpath=($ZSH_ROOT/completions $fpath)
 
 # homebrew
 # aws-cli
-source /usr/local/share/zsh/site-functions/_aws
+source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
 
 source "$ZSH_ROOT/functions/completion.zsh"
 
