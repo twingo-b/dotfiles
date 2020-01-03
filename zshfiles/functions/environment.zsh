@@ -1,5 +1,6 @@
 # ghq
 export GHQ_ROOT="$HOME/.ghq"
+
 # dot
 export DOT_REPO="https://github.com/twingo-b/dotfiles.git"
 export DOT_DIR="$HOME/.ghq/github.com/twingo-b/dotfiles"
