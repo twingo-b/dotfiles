@@ -8,7 +8,7 @@
 # * share history with each terminals
 #=#=
 
-HISTFILE="$ZSH_ROOT/history"
+HISTFILE="$HOME/Google Drive/dotfiles/.zsh/history"
 
 HISTSIZE=100000
 SAVEHIST=100000
