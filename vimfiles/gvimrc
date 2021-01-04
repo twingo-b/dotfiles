@@ -1,8 +1,14 @@
-colorscheme solarized 
+colorscheme solarized
 set guifont=Ricty\ Regular\ for\ Powerline:h15
 set background=dark "背景色：黒
 set transparency=5 "透明度を指定
 set lines=90 columns=200 "ウィンドウサイズを指定
 set guioptions-=T "GUIのツールバーを消す
 set showtabline=2 "タブを常に表示
+
+" https://github.com/airblade/vim-gitgutter/blob/bf813bb99070c22c0a462d79f5072adfb391e4e1/README.mkd#sign-column
+highlight SignColumn      guifg=#586e75 guibg=#073642
+highlight GitGutterAdd    guifg=#719e07 guibg=#073642
+highlight GitGutterChange guifg=#b58900 guibg=#073642
+highlight GitGutterDelete guifg=#dc322f guibg=#073642
 
