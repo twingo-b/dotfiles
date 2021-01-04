@@ -51,7 +51,14 @@ Plug 'tyru/open-browser.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'"{{{
+
 " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
+" vim-gitgutter
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '*'
+let g:gitgutter_sign_removed = '-'
+
+" lightline.vim
 let g:lightline = {
         \ 'colorscheme': 'wombat',
         \ 'mode_map': {'c': 'NORMAL'},
@@ -79,8 +86,8 @@ let g:lightline = {
         \   'charcode': 'MyCharCode',
         \   'gitgutter': 'MyGitGutter',
         \ },
-        \ 'separator': {'left': '⮀', 'right': '⮂'},
-        \ 'subseparator': {'left': '⮁', 'right': '⮃'}
+        \ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+        \ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"}
         \ }
 
 function! MyModified()
@@ -102,9 +109,9 @@ endfunction
 
 function! MyFugitive()
   try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-      let _ = fugitive#head()
-      return strlen(_) ? '⭠ '._ : ''
+    if &ft !~? 'vimfiler\|gundo' && exists('*FugitiveHead')
+      let _ = FugitiveHead()
+      return strlen(_) ? ' '._ : ''
     endif
   catch
   endtry
@@ -216,5 +223,8 @@ syntax on
 set background=dark
 colorscheme solarized
 
+
+" https://github.com/airblade/vim-gitgutter/blob/bf813bb99070c22c0a462d79f5072adfb391e4e1/README.mkd#sign-column
+highlight! link SignColumn LineNr
 
 "---------------------------------------------------------------------------}}}
