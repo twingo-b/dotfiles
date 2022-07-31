@@ -47,3 +47,4 @@ fi
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /Users/fyoshino/.anyenv/envs/ndenv/versions/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/fyoshino/.anyenv/envs/ndenv/versions/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
