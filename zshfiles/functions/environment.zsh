@@ -28,3 +28,7 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"
 
 # curl
 export PATH="/usr/local/opt/curl/bin:$PATH"
+
+# dotnet
+export PATH="$PATH:$HOME/.dotnet/tools/"
+export DOTNET_ROOT="/usr/local/opt/dotnet/libexec"
