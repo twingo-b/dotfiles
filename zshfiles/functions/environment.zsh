@@ -29,6 +29,9 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"
 # curl
 export PATH="/usr/local/opt/curl/bin:$PATH"
 
+# cdk
+export CDK_DOCKER="finch"
+
 # dotnet
 export PATH="$PATH:$HOME/.dotnet/tools/"
 export DOTNET_ROOT="/usr/local/opt/dotnet/libexec"
