@@ -12,5 +12,3 @@
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [pull]
 	rebase = false
-[url "https://"]
-	insteadOf = git://
