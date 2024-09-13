@@ -34,13 +34,13 @@
 #===========================================================================}}}
 # [Private files on Google Drive]                                           {{{
 #==============================================================================
-$HOME/Google Drive/dotfiles/.aws/config,.aws/config
-$HOME/Google Drive/dotfiles/.aws/credentials,.aws/credentials
-$HOME/Google Drive/dotfiles/.mylogin.cnf,.mylogin.cnf
-$HOME/Google Drive/dotfiles/.mysql,.mysql
-$HOME/Google Drive/dotfiles/.ssh,.ssh
-$HOME/Google Drive/dotfiles/.zsh/credentials,.zsh/credentials
-$HOME/Google Drive/dotfiles/BitBarPlugins/ping.10s.sh,BitBarPlugins/ping.10s.sh
+$HOME/Google Drive Mirror/dotfiles/.aws/config,.aws/config
+$HOME/Google Drive Mirror/dotfiles/.aws/credentials,.aws/credentials
+$HOME/Google Drive Mirror/dotfiles/.mylogin.cnf,.mylogin.cnf
+$HOME/Google Drive Mirror/dotfiles/.mysql,.mysql
+$HOME/Google Drive Mirror/dotfiles/.ssh,.ssh
+$HOME/Google Drive Mirror/dotfiles/.zsh/credentials,.zsh/credentials
+$HOME/Google Drive Mirror/dotfiles/BitBarPlugins/ping.10s.sh,BitBarPlugins/ping.10s.sh
 
 #===========================================================================}}}
 # [tmux]                                                                    {{{
