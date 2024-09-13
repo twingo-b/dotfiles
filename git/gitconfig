@@ -1,5 +1,5 @@
 [include]
-    path = ~/Google Drive/dotfiles/gitconfig.local
+    path = ~/Google Drive Mirror/dotfiles/gitconfig.local
 [core]
 	excludesfile = ~/.gitignore
 	editor = vim
