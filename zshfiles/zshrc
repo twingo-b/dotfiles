@@ -15,6 +15,10 @@ source "$ZSH_ROOT/functions/zplug.zsh"
 fpath=($ZSH_ROOT/completions $fpath)
 
 # homebrew
+# gcloud-cli
+source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+
 # aws-cli
 source $HOME/.anyenv/envs/pyenv/versions/general-env/bin/aws_zsh_completer.sh
 
